@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { User } from '_model/user';
@@ -9,9 +11,8 @@ import { User } from '_model/user';
 })
 export class AccountService {
   baseUrl = 'https://localhost:5001/api/';
-  private currentUserSource = new ReplaySubject<User>(1);
+  public currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
-  curUser: any;
 
   constructor(private http: HttpClient) { }
 
@@ -23,8 +24,9 @@ export class AccountService {
         if(user){
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
-          
         }
+
+        return user;
       })
     )
   }
@@ -44,12 +46,10 @@ export class AccountService {
 
   setCurrentUser(user:User | undefined){
     this.currentUserSource.next(user);
-    this.curUser = user;
   }
 
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(undefined);
-    
   }
 }

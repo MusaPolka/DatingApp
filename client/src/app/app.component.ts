@@ -10,24 +10,22 @@ import { AccountService } from '_services/account.service';
 })
 export class AppComponent implements OnInit {
   title = 'The DatingApp';
-  curUser:any;
-  
 
   constructor( private accountService:AccountService){}
 
   ngOnInit(){
     this.setCurrentUser();
+    
   }
 
   setCurrentUser(){
     const storedUser = localStorage.getItem('user');
+    
     if (storedUser) {
       const user: User = JSON.parse(storedUser);
       this.accountService.setCurrentUser(user);
-      this.curUser = JSON.parse(storedUser);
     } else {
       this.accountService.setCurrentUser(undefined);
     }
   }
-
 }
