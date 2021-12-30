@@ -20,10 +20,7 @@ export class NavbarComponent implements OnInit {
   login(){
     this.accountService.login(this.model).subscribe(response =>{
       this.router.navigateByUrl('/members');
-      this.toastr.success("You are loged in");
-    }, error =>{
-      console.log(error);
-      this.toastr.error(error.error);
+      this.toastr.success("You are logged in");
     });
   };
 
